@@ -12,8 +12,10 @@
 #include "esp_adc_cal.h"
 #include "nvs_flash.h"
 #include "nvs.h"
+#include "SRF05.h"
 
 #define BLINK_GPIO 2
+const uint8_t dummy;
 void GPIOInit()
 {
 //         gpio_config_t io_conf = {};
@@ -35,6 +37,8 @@ void GPIOInit()
 void app_main() 
 {
 GPIOInit();
+SRF05Init(dummy,dummy,dummy);
+
 while (true)
 {
     gpio_set_level(BLINK_GPIO, 0);
