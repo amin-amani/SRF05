@@ -12,20 +12,22 @@ static uint8_t _mode = 0;
   static uint8_t  _triggerLength    = 10;
   static float    _speedOfSound     = 340; 
 
-void (*SetEchoPinInput)(void);
-void (*SetTriggerPinOutput)(void);
-void (*SetTriggerPin)(int value);
-void (*delay)(int ms);
-void (*delayMicroseconds)(int us);
-void SRF05Init(const uint8_t trigger, const uint8_t echo, const uint8_t out)
+
+SRF05_t _srf;
+
+
+
+void SRF05Init(SRF05_t srf)
 {
-    _trigger = trigger;
-    _echo = echo;
-    _out = out;
+
+  _srf=srf;
+    // _trigger = trigger;
+    // _echo = echo;
+    // _out = out;
     _mode = 0;
-    SetEchoPinInput();
-    SetTriggerPinOutput();
-    SetTriggerPin(1);
+    // SetEchoPinInput();
+    // SetTriggerPinOutput();
+    // SetTriggerPin(1);
 
     // pinMode(_trigger, OUTPUT);
     // digitalWrite(_trigger, LOW);
@@ -80,12 +82,13 @@ uint8_t getOperationalMode()
 
 uint32_t _read()
 {
-  SetTriggerPin(1);
-  delayMicroseconds(_triggerLength);
-   SetTriggerPin(0);
-   uint32_t duration =2;
- //#TODO  what is pulse in func
+  _srf.SetTriggerPin(1);
+  _srf.delayMicroseconds(_triggerLength);
+   _srf.SetTriggerPin(0);
+   uint32_t duration =_srf.GetEchoPulseDuratin(300000);
+ //#TODO  what is pulse in func:it calculate time between two signal change
  // uint32_t duration = pulseIn(_echo, 1, 300000);
+ 
   if (_correctionFactor == 1)
   {
      return duration;
@@ -128,7 +131,7 @@ uint32_t getTime()
       for (uint8_t s = 0; s < _count; s++)
       {
         sum += _read();
-        delay(1);
+        _srf.delay(1);
       }
       return round(sum / _count);
     }
@@ -138,7 +141,7 @@ uint32_t getTime()
       for (uint8_t s = 0; s < _count; s++)
       {
         samples[s] = _read();
-        delay(1);
+        _srf.delay(1);
       }
       _insertSort(samples, _count);
       if (_count & 0x01) return samples[_count / 2];
@@ -189,7 +192,7 @@ float determineSpeedOfSound(uint16_t distance)
   for (uint16_t i = 0; i < distance; i++)
   {
     sum += _read();
-    delay(1);
+    _srf.delay(1);
   }
   float sos = 2e6 * distance / sum;
   return sos;

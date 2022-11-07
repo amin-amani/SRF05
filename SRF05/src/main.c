@@ -34,10 +34,42 @@ void GPIOInit()
     gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
 
 }
+void DelayMs(int ms)
+{
+
+
+}
+void DelayUs(int ms)
+{
+
+
+}
+uint32_t  GetEchoPulseDuration(int timeout)
+{
+
+return 0;
+}
+void SetTriggerPin(int value)
+{
+
+}
+void SetTriggerPinAsOutput()
+{
+
+
+}
 void app_main() 
 {
 GPIOInit();
-SRF05Init(dummy,dummy,dummy);
+
+SRF05_t srf05;
+srf05.delay=DelayMs;
+srf05.delayMicroseconds=DelayUs;
+srf05.GetEchoPulseDuratin=GetEchoPulseDuration;
+srf05.SetTriggerPin=SetTriggerPin;
+srf05.SetTriggerPinOutput=SetTriggerPinAsOutput;
+
+SRF05Init(srf05);
 
 while (true)
 {
