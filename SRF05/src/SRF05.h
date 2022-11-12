@@ -8,9 +8,10 @@ void (*SetEchoPinInput)(void);
 void (*SetTriggerPinOutput)(void);
 void (*SetTriggerPin)(int value);
 void (*delay)(int ms);
-void (*delayMicroseconds)(int us);
-uint32_t (*GetEchoPulseDuratin)(int timeout);
+void (*delayMicroseconds)(uint32_t us);
+uint64_t (*GetEchoPulseDuratin)(uint64_t timeout);
 }SRF05_t;
-
+void setCorrectionFactor(float factor ) ;
+float getMeter();
 void SRF05Init(SRF05_t srf);
 #endif

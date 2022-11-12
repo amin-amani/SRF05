@@ -25,14 +25,15 @@ void SRF05Init(SRF05_t srf)
     // _echo = echo;
     // _out = out;
     _mode = 0;
-    // SetEchoPinInput();
-    // SetTriggerPinOutput();
-    // SetTriggerPin(1);
+    _srf.SetEchoPinInput();
+    _srf.SetTriggerPinOutput();
+    _srf.SetTriggerPin(1);
 
     // pinMode(_trigger, OUTPUT);
     // digitalWrite(_trigger, LOW);
     // pinMode(_echo, INPUT);
 }
+void setCorrectionFactor(float factor ) { _correctionFactor = factor; };
 void setSpeedOfSound(float sos)
 {
   _speedOfSound = sos;
@@ -85,7 +86,7 @@ uint32_t _read()
   _srf.SetTriggerPin(1);
   _srf.delayMicroseconds(_triggerLength);
    _srf.SetTriggerPin(0);
-   uint32_t duration =_srf.GetEchoPulseDuratin(300000);
+   uint64_t duration =_srf.GetEchoPulseDuratin(300000);
  //#TODO  what is pulse in func:it calculate time between two signal change
  // uint32_t duration = pulseIn(_echo, 1, 300000);
  
