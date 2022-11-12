@@ -21,8 +21,6 @@ const uint8_t dummy;
 //==============================================================================================
 void GPIOInit()
 {
-
-      
     gpio_pad_select_gpio(BLINK_GPIO);
     /* Set the GPIO as a push/pull output */
     gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
@@ -96,7 +94,7 @@ void SetEchoPinInput()
 }
 void app_main() 
 {
-GPIOInit();
+
 
 SRF05_t srf05;
 srf05.delay=DelayMs;
@@ -107,6 +105,7 @@ srf05.SetTriggerPinOutput=SetTriggerPinAsOutput;
 srf05.SetEchoPinInput=SetEchoPinInput;
 
 SRF05Init(srf05);
+GPIOInit();
   setCorrectionFactor(1.035);
 while (true)
 {
